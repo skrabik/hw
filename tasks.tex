@@ -1,0 +1,230 @@
+% version: php developer
+
+\documentclass[letterpaper,12pt]{article}
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[russian,english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+
+\usepackage{helvet}
+\usepackage{geometry}
+\geometry{papersize={8.27in, 12.6in}}
+
+\pagestyle{fancy}
+\fancyhf{} % Clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Ensure that generate PDF is machine readable/ATS parsable
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[2]{
+  \item\small{
+    \textbf{#1}{: #2 \vspace{-2pt}}
+  }
+}
+
+% Just in case someone needs a heading that does not need to be in a list
+\newcommand{\resumeHeading}[4]{
+    \begin{tabular*}{0.99\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-1pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeSubItem}[2]{\resumeItem{#1}{#2}\vspace{-4pt}}
+
+\renewcommand{\labelitemii}{$\circ$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=*]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+\usepackage{listings}
+%-------------------------------------------
+%%%%%%  CV STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{center}
+    
+    \textbf{\Huge Выполнил Бабенко Роман}
+
+  \end{center}
+
+  Код для полинома лагранжа был выполнен и показан 
+  прямо на паре, поэтому в этом отчёте не будет 
+  его объяснения. Но его и все другие программы 
+  можно найти в приложении к отчёту (lagrange.ipynb)
+
+  также выложил на github: \href
+
+  \textbf{Задача 1.}
+\\~\\
+  Нужно найти оченку погрешности:
+    \\~\\
+   \begin{center} $|f(x)-L_n(x)| \leq \frac{M_n|w_n(x)|}{n!}$
+    
+   \end{center}
+
+
+    Найдём сначала значение $M_n$.
+    С помощью sympy найдём четвёртую производную
+    от $\frac{1}{x}$ и $M_n$
+    с помошью такого кода: 
+    \begin{lstlisting}
+        x = sympy.Symbol('x')
+        f = 1/x
+        fourth_derivative = sympy.diff(f, x, 4)
+
+        def four_f(x):
+            return 24 / (x**5)
+
+        Mn = max([four_f(x) for x in Xxx])
+    \end{lstlisting}
+
+    Далее функцию $w_n$ и функцию выкториала
+
+    \begin{center}
+        $w_n(x) = \prod_{j=1}^{n}(x-x_{j})$
+    \end{center}
+
+    \begin{lstlisting}
+        def wk (x):
+            res = 1
+            for j in range(4):
+                res *= (x - Xi[j])
+            return res
+
+        def fact(n):
+            if n == 1 or n == 0:
+                return 1
+            return fact(n-1)*n
+
+        res = list()
+    \end{lstlisting}
+
+    Теперь просерим утверждение. Пройдёмся по 
+    всем x, и запишем значение выражения в 
+    каждой точке.
+    \begin{lstlisting}
+    for x in Xxx:
+        expression = ((abs(f(x) - float(lag_pol(x)))) <= (Mn 
+        * abs(wk(x) / fact(4))))
+        if not expression:
+            print(x)
+        res.append(expression)
+    print(res.count(True), res.count(False))
+    \end{lstlisting}
+
+    Далее смотрим количестов значаний "True" и "False":
+    800 0. Наше выражение верно!
+
+    Аналогичный результат получаем для 
+    многочленов лагранжа, посроенных на 3-х и 2-х
+    точках. (Весть подробный код есть в ipyng файле)
+    \clearpage
+    Производные для вычисления $M_n$ получатся:
+
+    \begin{lstlisting}
+        
+        def three_f(x):
+            return -6 / (x**4)
+
+        def two_f(x):
+            return 2 / (x**3)
+
+    \end{lstlisting}
+
+    \textbf{Задача 2}
+    \\~\\
+    Необходимо найти оценку погрешности с 
+    помощью разделённых разностей.
+
+    \begin{center}
+
+        $f(x) - L_n(x) = f(x_1; x_2; ... 
+        ;x_n) w_n(x)$
+
+    \end{center}
+
+    Для вычисления $w_n$ мы воспользуемся 
+    уже написанной функцией из прошлой задачи.
+    \\
+    Для фукции вычислления раздёлённой разности 
+    я написал такую рекурсивную функцию:
+
+    \begin{lstlisting}
+        def f_razd (xvalues = list()):
+            if len(xvalues) == 2:
+                return ((f(xvalues[1]) - f(xvalues[0]) ) / (xvalues[1] -  xvalues[0])) 
+            return f_razd(xvalues[1:]) - f_razd(xvalues[:-1]) /
+             (xvalues[-1] / xvalues[0])
+    \end{lstlisting}
+
+    Соответственно также пробегаемся по всем x,
+    и проверяем значение выражения:
+
+    \begin{lstlisting}
+        res = list()
+        for x in Xxx:
+            expression = ((f(x) - lag_pol(x)) == (f_razd(Xi)*wn(x)))
+            res.append(expression)
+
+        print(res.count(True), res.count(False))
+    \end{lstlisting}
+
+    Мы получили ответ: 800 0!
+
+    \begin{flushright}
+        ps. подробные программы можно 
+        найти в прилагаемом файле lagrange.ipynb
+    \end{flushright}
+
+\end{document}
