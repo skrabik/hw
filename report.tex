@@ -221,6 +221,68 @@
 
     Мы получили ответ: 800 0!
 
+
+    \begin{center}
+        \textbf{Домашнее заданте 3}
+    \end{center}
+
+    1. Найдём корни многочлена чебышева 4 степени
+
+    \begin{lstlisting}
+        from numpy import cos, pi
+        n = 4
+        a = 0.1
+        b = 1.3
+        racines = list()
+        for m in range(0, 4): 
+            Xm = float((b+a) / 2 + ((b-a)/2)*cos(((pi*(2*m+1))/(2*n))))
+            racines.append(Xm)
+        racines.sort()
+    \end{lstlisting}
+
+    2. Построим многочлен Лагранжа по этим точкам
+
+    \begin{lstlisting}
+        Xi = racines
+        Yi = [f(i) for i in Xi]
+
+        lag_pol = create_polinom(Xi, Yi)
+        Xxx = np.linspace(0.1, 1.3, 500)
+        Yyy = []
+        for x in Xxx:
+        Yyy.append(lag_pol(x))
+    \end{lstlisting}
+
+    3. Теперь проведём оценку погрешности 
+
+    \begin{center}
+        $ max|f(x)-L_n(x)| \leqslant \frac{M_n}{n!}(b-a)^n 2^{1-2n} $ 
+    \end{center}
+    \begin{lstlisting}
+        left_part = max([abs(f(x)-lag_pol(x)) for x in Xxx])
+
+        x = sympy.Symbol('x')
+        f = 1/x
+        derivative = sympy.diff(f, x, 4)
+        print(derivative)
+        
+        def der(x):
+            return 24/x**5
+        
+        Mn = max([der(x) for x in Xxx])
+        
+        def fact(n):
+            if n == 1 or n == 0:
+                return 1
+            return fact(n-1) * n
+        
+        rigth_part = Mn *  (b-a)**n * 2**(1-2*n)
+        
+        print(left_part <= rigth_part)
+    \end{lstlisting}
+
+    Результат получаем: TRUE.
+
     \begin{flushright}
         ps. подробные программы можно 
         найти в прилагаемом файле lagrange.ipynb
